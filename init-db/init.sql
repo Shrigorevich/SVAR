@@ -1,16 +1,18 @@
-CREATE DATABASE achievements;
-
-\c achievements;
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE achievements (
-	id SERIAL PRIMARY KEY,
-	title VARCHAR NOT NULL,
-	description VARCHAR
+	id uuid DEFAULT uuid_generate_v1 (),
+	title TEXT NOT NULL,
+	description TEXT,
+	PRIMARY KEY (id)
 );
 
-CREATE TABLE achievement_relations (
-	achievement_id integer references achievements (id),
-	user_id varchar NOT NULL,
-	done boolean NOT NULL,
-	unique(achievement_id, user_id)
+CREATE TABLE attached_achievements (
+	achievement_id uuid references achievements (id),
+	user_id uuid NOT NULL,
+	done boolean NOT NULL
 );
+
+CREATE INDEX ach_id_index ON attached_achievements (achievement_id);
+
+CREATE UNIQUE INDEX att_ach_index ON attached_achievements (achievement_id, user_id);
