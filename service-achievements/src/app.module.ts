@@ -1,10 +1,21 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AchievementsService } from './achievements/achievements.service';
+import { AchievementsController } from './achievements/achievements.controller';
+import { configService } from './config/configuration';
+import { ConfigModule } from '@nestjs/config';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: ['../.env'],
+      isGlobal: true,
+    }),
+    DatabaseModule,
+  ],
+  controllers: [AppController, AchievementsController],
+  providers: [AppService, AchievementsService],
 })
 export class AppModule {}
