@@ -12,12 +12,8 @@ export class AchievementsController {
   ) {}
 
   @Get()
-  getAchievements(): void {
-    console.log('It works');
-    this.achievementsService
-      .getAchievements()
-      .then(console.log)
-      .catch(console.log);
+  getAchievements() {
+    return this.achievementsService.getAchievements();
   }
 
   @Get(':id')
@@ -26,7 +22,8 @@ export class AchievementsController {
   }
 
   @Post()
-  createAchievement(@Body() achievement: CreateAchievementDto): any {
+  createAchievement(@Body() achievement: CreateAchievementDto): void {
+    console.log('It works');
     this.achievementsService
       .createAchievement(achievement)
       .then(console.log)

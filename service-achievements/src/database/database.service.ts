@@ -9,8 +9,13 @@ export class DatabaseService {
 
   executeQuery(queryText: string, values: any[] = []): Promise<any[]> {
     this.logger.debug(`Executing query: ${queryText} (${values})`);
-    return this.pool.query(queryText, values).then((result: QueryResult) => {
-      return result.rows;
-    });
+    //TODO: investigate why try catch does not handle errors
+    try {
+      return this.pool.query(queryText, values).then((result: QueryResult) => {
+        return result.rows;
+      });
+    } catch (error) {
+      return Promise.reject(`Something went wrong: ${error}`);
+    }
   }
 }
