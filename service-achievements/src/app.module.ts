@@ -3,14 +3,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AchievementsService } from './achievements/achievements.service';
 import { AchievementsController } from './achievements/achievements.controller';
-import { configService } from './config/configuration';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: ['../.env'],
       isGlobal: true,
     }),
     DatabaseModule,

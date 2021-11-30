@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 
-import { AchievementDto } from 'src/Dto/AchievementDto';
+import { CreateAchievementDto } from 'src/Dto/CreateAchievementDto';
 import { AchievementsService } from './achievements.service';
 
 @Controller('achievements')
@@ -14,9 +14,10 @@ export class AchievementsController {
   @Get()
   getAchievements(): void {
     console.log('It works');
-    this.databaseService.executeQuery(
-      "INSERT INTO achievements ('title, description') VALUES ('My first achievement', 'Description of this achievement')",
-    );
+    this.achievementsService
+      .getAchievements()
+      .then(console.log)
+      .catch(console.log);
   }
 
   @Get(':id')
@@ -25,12 +26,15 @@ export class AchievementsController {
   }
 
   @Post()
-  createAchievement(@Body() achievement: AchievementDto): any {
-    this.achievementsService.createAchievement(achievement);
+  createAchievement(@Body() achievement: CreateAchievementDto): any {
+    this.achievementsService
+      .createAchievement(achievement)
+      .then(console.log)
+      .catch(console.log);
   }
 
   @Put()
-  updateAchievement(@Body() achievement: AchievementDto): void {
+  updateAchievement(@Body() achievement: CreateAchievementDto): void {
     this.achievementsService.updateAchievement(achievement);
   }
 }

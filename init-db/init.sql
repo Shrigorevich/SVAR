@@ -10,7 +10,7 @@ CREATE TABLE achievements (
 CREATE TABLE attached_achievements (
 	achievement_id uuid references achievements (id),
 	user_id uuid NOT NULL,
-	done boolean NOT NULL
+	done boolean DEFAULT FALSE NOT NULL
 );
 
 CREATE INDEX ach_id_index ON attached_achievements (achievement_id);

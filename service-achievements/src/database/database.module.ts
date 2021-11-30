@@ -6,11 +6,11 @@ import { DatabaseService } from './database.service';
 
 const databasePoolFactory = async (configService: ConfigService) => {
   return new Pool({
-    user: configService.get('POSTGRES_USER'),
-    host: configService.get('POSTGRES_HOST'),
-    database: configService.get('POSTGRES_DB'),
-    password: configService.get('POSTGRES_PASSWORD'),
-    port: configService.get('POSTGRES_PORT'),
+    user: process.env.POSTGRES_USER,
+    host: process.env.POSTGRES_HOST,
+    database: process.env.POSTGRES_DATABASE,
+    password: process.env.POSTGRES_PASSWORD,
+    port: parseInt(process.env.POSTGRES_PORT),
   });
 };
 
