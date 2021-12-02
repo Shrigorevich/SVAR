@@ -57,8 +57,6 @@ services:
       - postgres
 
   pgadmin:
-    links:
-      - postgres
     container_name: pgadmin
     image: dpage/pgadmin4
     ports:
