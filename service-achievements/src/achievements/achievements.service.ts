@@ -6,11 +6,9 @@ import { CreateAchievementDto } from 'src/Dto/CreateAchievementDto';
 export class AchievementsService {
   constructor(private readonly dbService: DatabaseService) {}
 
-  async getAchievements(userId: string): Promise<any> {
+  async getAchievements(): Promise<any> {
     return this.dbService.executeQuery(
-      `SELECT a.title, a.description, aa.* FROM achievements a JOIN attached_achievements aa ON a.id = aa.achievement_id ${
-        userId ? "WHERE aa.user_id='" + userId + "'" : ''
-      }`,
+      'SELECT a.title, a.description, aa.* FROM achievements a JOIN attached_achievements aa ON a.id = aa.achievement_id',
     );
   }
 
