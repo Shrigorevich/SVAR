@@ -5,6 +5,8 @@ services:
   dev:
     container_name: nestjs_api_dev
     image: nestjs-api-dev:1.0.0
+    depends_on:
+      - db
     build:
       context: ./service-achievements
       target: development
@@ -24,6 +26,7 @@ services:
     image: nestjs-api-prod:1.0.0
     depends_on:
       - db
+      - pgadmin
     build:
       context: ./service-achievements
       target: production
@@ -68,6 +71,6 @@ services:
       - postgres
 
 networks:
-  nesjs-network:
   postgres:
     driver: bridge
+  nesjs-network:
