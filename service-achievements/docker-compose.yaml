@@ -1,0 +1,72 @@
+# Use postgres/example user/password credentials
+version: "3.1"
+
+services:
+  db:
+    container_name: postgres
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init-db:/docker-entrypoint-initdb.d
+      - ./postgres-data:/var/lib/postgresql/data
+    env_file:
+      - docker.env
+    networks:
+      - postgres
+
+  pgadmin:
+    links:
+      - postgres:postgres
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    ports:
+      - "8080:80"
+    volumes:
+      - /data/pgadmin:/root/.pgadmin
+    env_file:
+      - docker.env
+    networks:
+      - postgres
+
+  dev:
+    container_name: achievements_dev
+    image: achievements_dev:1.0.0
+    build:
+      context: .
+      target: development
+      dockerfile: ./service-achievements/Dockerfile
+    command: npm run start:debug
+    ports:
+      - 3000:3000
+      - 9229:9229
+    networks:
+      - nesjs-network
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+
+  prod:
+    container_name: achievements_prod
+    image: achievements_prod:1.0.0
+    build:
+      context: .
+      target: production
+      dockerfile: ./service-achievements/Dockerfile
+    command: npm run start:prod
+    ports:
+      - 3000:3000
+      - 9229:9229
+    networks:
+      - nesjs-network
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+
+networks:
+  nesjs-network:
+  postgres:
+    driver: bridge
