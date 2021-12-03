@@ -7,18 +7,19 @@ services:
     image: nestjs-api-dev:1.0.0
     depends_on:
       - db
+      - pgadmin
     build:
       context: ./service-achievements
       target: development
       dockerfile: ./Dockerfile
-    command: npm run start:debug
+    command: npm run start:dev
     ports:
       - 3000:3000
       - 9229:9229
     networks:
       - nesjs-network
     volumes:
-      - .:/usr/src/app
+      - ./service-achievements:/usr/src/app
       - /usr/src/app/node_modules
     restart: unless-stopped
   prod:
