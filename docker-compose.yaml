@@ -17,11 +17,12 @@ services:
       - 3000:3000
       - 9229:9229
     networks:
-      - nesjs-network
+      - postgres
     volumes:
       - ./service-achievements:/usr/src/app
       - /usr/src/app/node_modules
     restart: unless-stopped
+
   prod:
     container_name: nestjs_api_prod
     image: nestjs-api-prod:1.0.0
@@ -37,7 +38,7 @@ services:
       - 3000:3000
       - 9229:9229
     networks:
-      - nesjs-network
+      - postgres
     volumes:
       - ./service-achievements:/usr/src/app
       - /usr/src/app/node_modules
@@ -72,4 +73,3 @@ services:
 networks:
   postgres:
     driver: bridge
-  nesjs-network:
