@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 
 import { CreateAchievementDto } from 'src/Dto/CreateAchievementDto';
@@ -6,14 +6,11 @@ import { AchievementsService } from './achievements.service';
 
 @Controller('achievements')
 export class AchievementsController {
-  constructor(
-    private readonly achievementsService: AchievementsService,
-    private readonly databaseService: DatabaseService,
-  ) {}
+  constructor(private readonly achievementsService: AchievementsService) {}
 
   @Get()
-  getAchievements() {
-    return this.achievementsService.getAchievements();
+  getAchievements(@Query('userId') userId: string) {
+    return this.achievementsService.getAchievements(userId);
   }
 
   @Get(':id')
@@ -23,7 +20,6 @@ export class AchievementsController {
 
   @Post()
   createAchievement(@Body() achievement: CreateAchievementDto): void {
-    console.log('It works');
     this.achievementsService
       .createAchievement(achievement)
       .then(console.log)
